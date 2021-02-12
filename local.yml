@@ -3,7 +3,7 @@
   tasks:
   - name: Install packages
     apt: 
-      name: ['neovim', 'build-essential', 'git', 'ripgrep', 'fzf', 'nvidia-cuda-toolkit'] 
+      name: ['neovim', 'build-essential', 'git', 'ripgrep', 'fzf', 'nvidia-cuda-toolkit', 'zsh'] 
 
   - name: Install miniconda
     command: ./install_miniconda.sh
