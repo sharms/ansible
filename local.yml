@@ -28,11 +28,12 @@
   
   - name: Check if .oh-my-zsh exists
     become: yes
-    become_user: '{{ users }}'
+    become_user: '{{ item }}'
     stat:
-      path: ~/.oh-my-zsh
+      path: '~{{ item }}/.oh-my-zsh'
     register: stat_oh_my_zsh_result
     tags: oh-my-zsh
+    loop: "{{ users }}"
 
   - name: Cloning  oh-my-zsh
     become: yes
