@@ -74,7 +74,7 @@
   - name: Install Powerline fonts repo
     git:
       repo: https://github.com/powerline/fonts.git
-      dest: /usr/src/powerline-fonts
+      dest: /usr/src/fonts/powerline-fonts
       update: no
   
   - name: Create Powerline fonts directory
@@ -84,14 +84,14 @@
   
   - name: Change install.sh to point to /usr/share/fonts/powerline
     replace:
-      dest: /usr/src/powerline-fonts/install.sh
+      dest: /usr/src/fonts/powerline-fonts/install.sh
       regexp: 'font_dir="\$HOME/.local/share/fonts"'
       replace: 'font_dir="/usr/share/fonts/powerline"'
   
   - name: Copy Powerline fonts
-    command: /usr/src/powerline-fonts/install.sh
+    command: /usr/src/fonts/powerline-fonts/install.sh
     args:
-      chdir: "/usr/src/powerline-fonts"
+      chdir: "/usr/src/fonts/powerline-fonts"
       creates: "/usr/share/fonts/powerline/Hack-Bold.ttf"
     register: PowerlineFonts_installed
     notify: Update fonts
@@ -99,7 +99,7 @@
   - name: Install Awesome Patched Fonts
     git:
       repo: https://github.com/gabrielelana/awesome-terminal-fonts
-      dest: /usr/src/awesome-terminal-fonts
+      dest: /usr/src/fonts/awesome-terminal-fonts
       update: no
   
   - name: Create Awesome fonts directory
@@ -108,14 +108,30 @@
       state: directory
   
   - name: Copy Awesome fonts
-    shell: cp -a /usr/src/awesome-terminal-fonts/build/*.ttf /usr/share/fonts/awesome
+    shell: cp -a /usr/src/fonts/awesome-terminal-fonts/build/*.ttf /usr/share/fonts/awesome
     args:
       creates: /usr/share/fonts/awesome/devicons-regular.ttf
     notify: Update fonts
   
   - name: Copy Awesome font config
-    shell: cp -a /usr/src/awesome-terminal-fonts/config/10-symbols.conf /etc/fonts/conf.d
+    shell: cp -a /usr/src/fonts/awesome-terminal-fonts/config/10-symbols.conf /etc/fonts/conf.d
     args:
       creates: /etc/fonts/conf.d/10-symbols.conf
     notify: Update fonts
 
+  - name: Install FiraCode Fonts
+    git:
+      repo: https://github.com/tonsky/FiraCode.git
+      dest: /usr/src/fonts/firacode
+      update: no
+ 
+  - name: Create Firacode fonts directory
+    file:
+      path: /usr/share/fonts/firacode
+      state: directory
+  
+  - name: Copy Firacode fonts
+    shell: cp -a /usr/src/fonts/firacode/distr/ttf/*.ttf /usr/share/fonts/firacode
+    args:
+      creates: /usr/share/fonts/firacode/FiraCode-Regular.ttf
+    notify: Update fonts
