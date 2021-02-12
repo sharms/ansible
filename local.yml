@@ -16,6 +16,7 @@
       - fzf
       - git
       - jq
+      - openssh-server
       - neovim
       - nvidia-cuda-toolkit
       - ripgrep
@@ -166,3 +167,9 @@
     args:
       creates: /usr/share/fonts/firacode/FiraCode-Regular.ttf
     notify: Update fonts
+
+  - name: Apply Gnome settings
+    become: yes
+    become_user: '{{ users }}'
+    shell: |
+      gsettings set org.gnome.settings-daemon.plugins.xsettings rgba-order 'vrgb'
