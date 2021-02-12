@@ -35,13 +35,13 @@
     tags: oh-my-zsh
     loop: "{{ users }}"
 
-  - name: Cloning  oh-my-zsh
+  - name: Cloning oh-my-zsh
     become: yes
-    become_user: '{{ users }}'
-    git: repo=https://github.com/robbyrussell/oh-my-zsh
-      dest=~/.oh-my-zsh
-    when: not stat_oh_my_zsh_result.stat.exists
+    become_user: '{{ item.item }}'
+    git: 'repo=https://github.com/robbyrussell/oh-my-zsh dest={{ item.item }}/.oh-my-zsh'
+    when: not item.stat.exists
     tags: oh-my-zsh
+    loop: "{{ stat_oh_my_zsh_result.results }}"
 
   - name: Check if zsh-syntax-highlighting
     become: yes
