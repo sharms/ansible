@@ -8,11 +8,61 @@
       - curl
       - fzf
       - git
+      - jq
       - neovim
       - nvidia-cuda-toolkit
       - ripgrep
+      - tmux
+      - wget
       - zsh
 
   - name: Install miniconda
     command: ./install_miniconda.sh
   
+  - name: Check if .oh-my-zsh exists
+    stat:
+      path: ~/.oh-my-zsh
+    register: stat_oh_my_zsh_result
+    tags: oh-my-zsh
+
+  - name: Cloning  oh-my-zsh
+    git: repo=https://github.com/robbyrussell/oh-my-zsh
+      dest=~/.oh-my-zsh
+    when: not stat_oh_my_zsh_result.stat.exists
+    tags: oh-my-zsh
+
+  - name: Check if zsh-syntax-highlighting
+    stat:
+      path: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    register: zsh_syntax_highlighting_result
+    tags: oh-my-zsh
+
+  - name: Cloning zsh-syntax-highlighting
+    git: repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
+      dest=~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    when: not zsh_syntax_highlighting_result.stat.exists
+    tags: oh-my-zsh
+
+  - name: Check if zsh-autosuggestions
+    stat:
+      path: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    register: zsh_autosuggestions_result
+    tags: oh-my-zsh
+
+  - name: Cloning zsh-autosuggestions
+    git: repo=https://github.com/zsh-users/zsh-autosuggestions
+      dest=~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    when: not zsh_autosuggestions_result.stat.exists
+    tags: oh-my-zsh
+
+  - name: Check if zsh-history-substring-search
+    stat:
+      path: ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+    register: zsh_history_substring_search_result
+    tags: oh-my-zsh
+
+  - name: Cloning zsh-history-substring-search
+    git: repo=https://github.com/zsh-users/zsh-history-substring-search
+      dest=~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+    when: not zsh_history_substring_search_result.stat.exists
+    tags: oh-my-zsh
