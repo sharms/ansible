@@ -38,7 +38,9 @@
   - name: Cloning oh-my-zsh
     become: yes
     become_user: '{{ item.item }}'
-    git: 'repo=https://github.com/robbyrussell/oh-my-zsh dest={{ item.item }}/.oh-my-zsh'
+    git: 
+      repo: https://github.com/robbyrussell/oh-my-zsh 
+      dest: '{{ item.item }}/.oh-my-zsh'
     when: not item.stat.exists
     tags: oh-my-zsh
     loop: "{{ stat_oh_my_zsh_result.results }}"
