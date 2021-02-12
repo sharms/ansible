@@ -170,6 +170,7 @@
 
   - name: Apply Gnome settings
     become: yes
-    become_user: '{{ users }}'
+    become_user: '{{ item }}'
     shell: |
       gsettings set org.gnome.settings-daemon.plugins.xsettings rgba-order 'vrgb'
+    loop: '{{ users }}'
