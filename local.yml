@@ -66,3 +66,52 @@
       dest=~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
     when: not zsh_history_substring_search_result.stat.exists
     tags: oh-my-zsh
+
+  - name: Install Powerline fonts repo
+    git:
+      repo: https://github.com/powerline/fonts.git
+      dest: /usr/src/powerline-fonts
+      update: no
+  
+  - name: Create Powerline fonts directory
+    file:
+      path: /usr/share/fonts/powerline
+      state: directory
+  
+  - name: Change install.sh to point to /usr/share/fonts/powerline
+    replace:
+      dest: /usr/src/powerline-fonts/install.sh
+      regexp: 'font_dir="\$HOME/.local/share/fonts"'
+      replace: 'font_dir="/usr/share/fonts/powerline"'
+  
+  - name: Copy Powerline fonts
+    command: /usr/src/powerline-fonts/install.sh
+    args:
+      chdir: "/usr/src/powerline-fonts"
+      creates: "/usr/share/fonts/powerline/Hack-Bold.ttf"
+    register: PowerlineFonts_installed
+    notify: Update fonts
+
+ - name: Install Awesome Patched Fonts
+    git:
+      repo: https://github.com/gabrielelana/awesome-terminal-fonts
+      dest: /usr/src/awesome-terminal-fonts
+      update: no
+  
+  - name: Create Awesome fonts directory
+    file:
+      path: /usr/share/fonts/awesome
+      state: directory
+  
+  - name: Copy Awesome fonts
+    shell: cp -a /usr/src/awesome-terminal-fonts/build/*.ttf /usr/share/fonts/awesome
+    args:
+      creates: /usr/share/fonts/awesome/devicons-regular.ttf
+    notify: Update fonts
+  
+  - name: Copy Awesome font config
+    shell: cp -a /usr/src/awesome-terminal-fonts/config/10-symbols.conf /etc/fonts/conf.d
+    args:
+      creates: /etc/fonts/conf.d/10-symbols.conf
+    notify: Update fonts
+
