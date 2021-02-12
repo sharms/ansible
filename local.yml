@@ -92,7 +92,7 @@
     register: PowerlineFonts_installed
     notify: Update fonts
 
- - name: Install Awesome Patched Fonts
+  - name: Install Awesome Patched Fonts
     git:
       repo: https://github.com/gabrielelana/awesome-terminal-fonts
       dest: /usr/src/awesome-terminal-fonts
