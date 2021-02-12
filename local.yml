@@ -4,12 +4,13 @@
   - name: Install packages
     apt: 
       name: 
-      - neovim
       - build-essential
-      - git
-      - ripgrep
+      - curl
       - fzf
+      - git
+      - neovim
       - nvidia-cuda-toolkit
+      - ripgrep
       - zsh
 
   - name: Install miniconda
