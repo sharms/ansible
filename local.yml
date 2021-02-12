@@ -33,7 +33,7 @@
       path: '$HOME/.oh-my-zsh'
     register: stat_oh_my_zsh_result
     tags: oh-my-zsh
-    loop: "{{ users }}"
+    loop: '{{ users }}'
 
   - name: Cloning oh-my-zsh
     become: yes
@@ -43,55 +43,64 @@
       dest: '$HOME/.oh-my-zsh'
     when: not item.stat.exists
     tags: oh-my-zsh
-    loop: "{{ stat_oh_my_zsh_result.results }}"
+    loop: '{{ stat_oh_my_zsh_result.results }}'
 
   - name: Check if zsh-syntax-highlighting
     become: yes
-    become_user: '{{ users }}'
+    become_user: '{{ item }}'
     stat:
-      path: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+      path: '$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
     register: zsh_syntax_highlighting_result
     tags: oh-my-zsh
+    loop: '{{ users }}'
 
   - name: Cloning zsh-syntax-highlighting
     become: yes
-    become_user: '{{ users }}'
-    git: repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
-      dest=~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    when: not zsh_syntax_highlighting_result.stat.exists
+    become_user: '{{ item.item }}'
+    git:
+      repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+      dest: '$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+    when: not item.stat.exists
     tags: oh-my-zsh
+    loop: '{{ zsh_syntax_highlighting_result.results }}'
 
   - name: Check if zsh-autosuggestions
     become: yes
-    become_user: '{{ users }}'
+    become_user: '{{ item }}'
     stat:
-      path: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+      path: '$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
     register: zsh_autosuggestions_result
     tags: oh-my-zsh
+    loop: '{{ users }}'
 
   - name: Cloning zsh-autosuggestions
     become: yes
-    become_user: '{{ users }}'
-    git: repo=https://github.com/zsh-users/zsh-autosuggestions
-      dest=~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-    when: not zsh_autosuggestions_result.stat.exists
+    become_user: '{{ item.item }}'
+    git:
+      repo: https://github.com/zsh-users/zsh-autosuggestions
+      dest: '$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+    when: not item.stat.exists
     tags: oh-my-zsh
+    loop: '{{ zsh_autosuggestions_result.results }}'
 
   - name: Check if zsh-history-substring-search
     become: yes
-    become_user: '{{ users }}'
+    become_user: '{{ item }}'
     stat:
-      path: ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
+      path: '$HOME/.oh-my-zsh/custom/plugins/zsh-history-substring-search'
     register: zsh_history_substring_search_result
     tags: oh-my-zsh
+    loop: '{{ users }}'
 
   - name: Cloning zsh-history-substring-search
     become: yes
-    become_user: '{{ users }}'
-    git: repo=https://github.com/zsh-users/zsh-history-substring-search
-      dest=~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
-    when: not zsh_history_substring_search_result.stat.exists
+    become_user: '{{ item.item }}'
+    git: 
+      repo: https://github.com/zsh-users/zsh-history-substring-search
+      dest: '$HOME/.oh-my-zsh/custom/plugins/zsh-history-substring-search'
+    when: not item.stat.exists
     tags: oh-my-zsh
+    loop: '{{ zsh_history_substring_search_result.results }}'
 
   - name: Install Powerline fonts repo
     git:
