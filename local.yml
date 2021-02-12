@@ -102,7 +102,14 @@
     when: not item.stat.exists
     tags: oh-my-zsh
     loop: '{{ zsh_history_substring_search_result.results }}'
-
+    
+  - name: Set default shell for users
+    become: yes
+    user:
+      name: '{{ item }}'
+      shell: /bin/zsh
+    loop: '{{ users }}'
+  
   - name: Install Powerline fonts repo
     git:
       repo: https://github.com/powerline/fonts.git
