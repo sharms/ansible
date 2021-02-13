@@ -190,9 +190,9 @@
   
   - name: add chrome apt repo
     apt_repository:
-      repo: 'deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main'
+      repo: deb http://dl.google.com/linux/chrome/deb/ stable main
       state: present
-      update_cache: yes
+      filename: google-chrome
   
   - name: install google-chrome
     apt:
