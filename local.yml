@@ -104,6 +104,15 @@
     when: not item.stat.exists
     tags: oh-my-zsh
     loop: '{{ zsh_history_substring_search_result.results }}'
+
+  - name: Clone powerlevel10k theme
+    become: yes
+    become_user: '{{ item }}'
+    git:
+      repo: "https://gitee.com/romkatv/powerlevel10k.git"
+      dest: "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+      depth: "1"
+    loop: '{{ users }}'
     
   - name: Set default shell for users
     become: yes
