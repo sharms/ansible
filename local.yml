@@ -22,6 +22,7 @@
       - ripgrep
       - tmux
       - wget
+      - yubikey-manager
       - zsh
 
   - name: Install miniconda
