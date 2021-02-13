@@ -116,7 +116,7 @@
 
   - name: copy .zshrc template to user's home folder
     template:
-      src: zshrc
+      src: zshrc.j2
       dest: /home/{{ item }}/.zshrc
     loop: '{{ users }}'
   
@@ -130,7 +130,7 @@
 
   - name: copy .p10k template to user's home folder
     template:
-      src: p10k.zsh
+      src: p10k.zsh.j2
       dest: /home/{{ item }}/.p10k.zsh
     loop: '{{ users }}'
   
