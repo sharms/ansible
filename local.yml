@@ -115,34 +115,23 @@
     loop: '{{ users }}'
 
   - name: copy .zshrc template to user's home folder
-    template:
-      src: zshrc.j2
+    copy:
+      src: zshrc
       dest: /home/{{ item }}/.zshrc
-    loop: '{{ users }}'
-  
-  - name: setup user permissions for .zshrc file
-    file:
-      path: /home/{{ item }}/.zshrc
       owner: '{{ item }}'
       group: '{{ item }}'
       mode: 0640
     loop: '{{ users }}'
-
+  
   - name: copy .p10k template to user's home folder
-    template:
-      src: p10k.zsh.j2
+    copy:
+      src: p10k.zsh
       dest: /home/{{ item }}/.p10k.zsh
-    loop: '{{ users }}'
-  
-  - name: setup user permissions for .zshrc file
-    file:
-      path: /home/{{ item }}/.p10k.zsh
-      owner: '{{ item }}'
-      group: '{{ item }}'
+      owner: '{{ item }}'                                                       
+      group: '{{ item }}'                                                       
       mode: 0640
     loop: '{{ users }}'
-
-
+  
   - name: Set default shell for users
     become: yes
     user:
